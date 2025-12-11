@@ -34,6 +34,62 @@
     </div>
 </div>
 
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
+    <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 shadow-lg">
+        <h3 class="text-xl font-bold text-white mb-4">Daftar Toko Terbaru</h3>
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-slate-400">
+                <thead class="text-xs uppercase bg-slate-800/50 text-slate-300">
+                    <tr>
+                        <th class="px-4 py-3 rounded-l-lg">Nama Toko</th>
+                        <th class="px-4 py-3 rounded-r-lg">Alamat</th>
+                    </tr>
+                </thead>
+                <tbody class="text-sm">
+                    @forelse(\App\Models\Toko::orderBy('id', 'desc')->limit(5)->get() as $toko)
+                    <tr class="border-b border-slate-800 last:border-0">
+                        <td class="px-4 py-3 font-medium text-white">{{ $toko->nama_toko}}</td>
+                        <td class="px-4 py-3">{{ \Illuminate\Support\Str::limit($toko->alamat ?? $toko->address ?? '-', 30) }}</td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="2" class="px-4 py-3 text-center">Belum ada data toko.</td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 shadow-lg">
+        <h3 class="text-xl font-bold text-white mb-4">Stok Barang Terbaru</h3>
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-slate-400">
+                <thead class="text-xs uppercase bg-slate-800/50 text-slate-300">
+                    <tr>
+                        <th class="px-4 py-3 rounded-l-lg">Barang</th>
+                        <th class="px-4 py-3">Jml</th>
+                        <th class="px-4 py-3 rounded-r-lg">Harga</th>
+                    </tr>
+                </thead>
+                <tbody class="text-sm">
+                    @forelse(\App\Models\Stok::orderBy('id', 'desc')->limit(5)->get() as $stok)
+                    <tr class="border-b border-slate-800 last:border-0">
+                        <td class="px-4 py-3 font-medium text-white">{{ $stok->nama_barang ?? $stok->name ?? '-' }}</td>
+                        <td class="px-4 py-3">{{ $stok->jumlah ?? $stok->jumlah_stok ?? 0 }}</td>
+                        <td class="px-4 py-3">Rp {{ number_format($stok->harga ?? $stok->price ?? 0, 0, ',', '.') }}</td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="3" class="px-4 py-3 text-center">Belum ada data stok.</td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
 <div class="mt-8 bg-slate-900/50 p-6 rounded-2xl border border-slate-800 border-dashed text-center">
     <p class="text-slate-500">Silakan pilih menu <span class="text-cyan-400">Manajemen Toko</span> di samping untuk mulai mengelola data.</p>
 </div>
